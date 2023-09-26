@@ -34,7 +34,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "@authorizerdev/authorizer-react",
+  "name": "@luclu7/authorizer-react",
   "author": "Lakhan Samani",
   "module": "dist/authorizer-react.esm.js",
   "size-limit": [
@@ -50,7 +50,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.2",
     "@size-limit/preset-small-lib": "^8.1.0",
-    "@types/react": "^18.0.25",
+    "@types/react": "^18.2.23",
     "@types/react-dom": "^18.0.9",
     "babel-loader": "^9.1.0",
     "husky": "^8.0.2",

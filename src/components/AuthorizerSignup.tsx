@@ -12,6 +12,7 @@ import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 
 interface InputDataType {
   email: string | null;
+  nickname: string | null;
   password: string | null;
   confirmPassword: string | null;
 }
@@ -27,11 +28,13 @@ export const AuthorizerSignup: FC<{
   const [successMessage, setSuccessMessage] = useState(``);
   const [formData, setFormData] = useState<InputDataType>({
     email: null,
+    nickname: null,
     password: null,
     confirmPassword: null,
   });
   const [errorData, setErrorData] = useState<InputDataType>({
     email: null,
+    nickname: null,
     password: null,
     confirmPassword: null,
   });
@@ -48,6 +51,7 @@ export const AuthorizerSignup: FC<{
       setLoading(true);
       const data: SignupInput = {
         email: formData.email || '',
+        nickname: formData.nickname || '',
         password: formData.password || '',
         confirm_password: formData.confirmPassword || '',
       };
@@ -111,6 +115,14 @@ export const AuthorizerSignup: FC<{
       setErrorData({ ...errorData, email: null });
     }
   }, [formData.email]);
+
+  useEffect(() => {
+    if (formData.nickname === '') {
+      setErrorData({ ...errorData, nickname: 'Nickname is required' });
+    } else {
+      setErrorData({ ...errorData, nickname: null });
+    }
+  }, [formData.nickname]);
 
   useEffect(() => {
     if (formData.password === '') {
@@ -189,6 +201,30 @@ export const AuthorizerSignup: FC<{
               <div className={styles['styled-form-group']}>
                 <label
                   className={styles['form-input-label']}
+                  htmlFor="authorizer-sign-up-nickname"
+                >
+                  <span>* </span>Nickname
+                </label>
+                <input
+                  name="nickname"
+                  id="authorizer-sign-up-nickname"
+                  className={`${styles['form-input-field']} ${
+                    errorData.nickname ? styles['input-error-content'] : null
+                  }`}
+                  placeholder="eg. AzureDiamond"
+                  type="text"
+                  value={formData.nickname || ''}
+                  onChange={(e) => onInputChange('nickname', e.target.value)}
+                />
+                {errorData.nickname && (
+                  <div className={styles['form-input-error']}>
+                    {errorData.nickname}
+                  </div>
+                )}
+              </div>
+              <div className={styles['styled-form-group']}>
+                <label
+                  className={styles['form-input-label']}
                   htmlFor="authorizer-sign-up-password"
                 >
                   <span>* </span>Password
@@ -255,8 +291,10 @@ export const AuthorizerSignup: FC<{
                   disableSignupButton ||
                   !!errorData.email ||
                   !!errorData.password ||
+                  !!errorData.nickname ||
                   !!errorData.confirmPassword ||
                   !formData.email ||
+                  !formData.nickname ||
                   !formData.password ||
                   !formData.confirmPassword
                 }
